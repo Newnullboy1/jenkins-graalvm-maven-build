@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-build-graalvm-deployment
+  labels:
+    app: jenkins-build-graalvm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-build-graalvm
+  template:
+    metadata:
+      labels:
+        app: jenkins-build-graalvm
+    spec:
+      containers:
+      - name: jenkins-build-graalvm
+        image: newnullboy/jenkins-build-graalvm:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: docker-sock-volume
+          mountPath: /var/run/docker.sock
+        - name: jenkins-home
+          mountPath: "/var/jenkins_home"
+      volumes:
+      - name: jenkins-home
+        persistentVolumeClaim:
+          claimName: jenkins-build-graalvm-claim
+      - name: docker-sock-volume
+        hostPath:
+          path: /var/run/docker.sock
