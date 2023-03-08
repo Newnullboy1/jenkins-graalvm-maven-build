@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jenkins-build-graalvm
-        image: newnullboy/jenkins-build-graalvm:latest
+        image: localhost:5000/jenkins-build-graalvm:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
