@@ -7,6 +7,12 @@ ENV ADMIN_USER=admin \
 
 COPY security.groovy /usr/share/jenkins/ref/init.groovy.d/
 
+#Install gcc
+RUN apt-get -qq update && \
+    apt-get upgrade && \
+    apt-get install -y build-essential && \
+    apt-get install -y libz-dev | sh
+
 # Install jenkins plugins
 COPY plugins.txt /usr/share/jenkins/ref/
 RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
